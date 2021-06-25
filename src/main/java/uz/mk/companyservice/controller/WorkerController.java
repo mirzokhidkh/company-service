@@ -1,4 +1,4 @@
-package uz.mk.companyservice.entity.controller;
+package uz.mk.companyservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -7,10 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import uz.mk.companyservice.entity.Department;
+import uz.mk.companyservice.entity.Worker;
 import uz.mk.companyservice.payload.ApiResponse;
-import uz.mk.companyservice.payload.DepartmentDto;
-import uz.mk.companyservice.service.DepartmentService;
+import uz.mk.companyservice.payload.WorkerDto;
+import uz.mk.companyservice.service.WorkerService;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -18,42 +18,42 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/department")
-public class DepartmentController {
+@RequestMapping("/worker")
+public class WorkerController {
 
     @Autowired
-    DepartmentService departmentService;
+    WorkerService workerService;
 
     @GetMapping
     public HttpEntity<?> getAll() {
-        List<Department> DepartmentList = departmentService.getAll();
-        return ResponseEntity.ok(DepartmentList);
+        List<Worker> WorkerList = workerService.getAll();
+        return ResponseEntity.ok(WorkerList);
     }
 
 
     @GetMapping("/{id}")
     public HttpEntity<?> getById(@PathVariable Integer id) {
-        Department department = departmentService.getById(id);
-        return ResponseEntity.ok(department);
+        Worker Worker = workerService.getById(id);
+        return ResponseEntity.ok(Worker);
     }
 
     @PostMapping
-    public HttpEntity<?> add(@Valid @RequestBody DepartmentDto departmentDto) {
-        ApiResponse response = departmentService.add(departmentDto);
+    public HttpEntity<?> add(@Valid @RequestBody WorkerDto workerDto) {
+        ApiResponse response = workerService.add(workerDto);
         return ResponseEntity.status(response.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT)
                 .body(response);
     }
 
     @PutMapping("/{id}")
-    public HttpEntity<?> edit(@Valid @PathVariable Integer id,@Valid @RequestBody DepartmentDto departmentDto) {
-        ApiResponse response = departmentService.edit(id, departmentDto);
+    public HttpEntity<?> edit(@Valid @PathVariable Integer id,@Valid @RequestBody WorkerDto workerDto) {
+        ApiResponse response = workerService.edit(id, workerDto);
         return ResponseEntity.status(response.isSuccess() ? HttpStatus.ACCEPTED : HttpStatus.CONFLICT)
                 .body(response);
     }
 
     @DeleteMapping("/{id}")
     public HttpEntity<?> deleteById(@PathVariable Integer id) {
-        ApiResponse response = departmentService.deleteById(id);
+        ApiResponse response = workerService.deleteById(id);
         return ResponseEntity.status(response.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND)
                 .body(response);
     }
